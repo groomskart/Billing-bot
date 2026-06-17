@@ -39,6 +39,8 @@ function unlockApp() {
     return true;
   } else {
     if (error) { error.style.display = 'block'; error.innerText = 'Wrong PIN'; }
+    var shakeEl = document.getElementById('pinInput');
+    if (shakeEl) { shakeEl.classList.remove('shake'); void shakeEl.offsetWidth; shakeEl.classList.add('shake'); setTimeout(function(){ shakeEl.classList.remove('shake'); }, 450); shakeEl.select(); }
     return false;
   }
 }
@@ -214,16 +216,20 @@ document.addEventListener('DOMContentLoaded',function(){
 
       {/* PIN LOCK */}
       <div id="pinLock" style={{
-        position: 'fixed', inset: 0, background: '#111', color: '#fff',
+        position: 'fixed', inset: 0, background: '#0a0a0a',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        zIndex: 9999, fontFamily: 'system-ui, sans-serif'
+        zIndex: 9999
       }}>
-        <div style={{ background: '#1e1e1e', padding: '30px', borderRadius: '10px', width: '300px', textAlign: 'center' }}>
-          <h2 style={{ marginBottom: '10px' }}>Operator Access</h2>
-          <p style={{ fontSize: '14px', opacity: 0.7 }}>Enter PIN to continue</p>
-          <input id="pinInput" type="password" placeholder="PIN" style={{ width: '100%', padding: '10px', fontSize: '18px', textAlign: 'center', margin: '15px 0', borderRadius: '6px', border: 'none', outline: 'none' }} />
-          <button id="pinUnlockBtn" style={{ width: '100%', padding: '10px', fontSize: '16px', background: '#4CAF50', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>Unlock</button>
-          <p id="pinError" style={{ color: '#ff4d4d', marginTop: '10px', display: 'none' }}>Wrong PIN</p>
+        <div style={{ background: '#141416', border: '1px solid #222', padding: '36px 32px 28px', borderRadius: '14px', width: '300px', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.9)' }}>
+          <div className="pin-logo">GROOMSKART<span className="pin-pro-badge">PRO</span></div>
+          <p className="pin-subtitle">Operator Access</p>
+          <hr className="pin-divider" />
+          <div className="pin-input-wrap">
+            <input id="pinInput" type="password" placeholder="Enter PIN" className="form-control" style={{ fontSize: '1.2rem', textAlign: 'center', letterSpacing: '6px', background: '#1e1e1e', border: '1px solid #333', color: '#fff' }} />
+            <button className="pin-show-btn" type="button" onClick={() => { const el = document.getElementById('pinInput') as HTMLInputElement; if(el) el.type = el.type === 'password' ? 'text' : 'password'; }}>👁</button>
+          </div>
+          <button id="pinUnlockBtn" className="btn btn-gold w-100 py-2" style={{ fontSize: '1rem', letterSpacing: '1px' }}>UNLOCK</button>
+          <p id="pinError" style={{ color: '#ff4d4d', marginTop: '12px', display: 'none', fontSize: '0.9rem' }}>Incorrect PIN — try again</p>
         </div>
       </div>
 
@@ -266,7 +272,7 @@ document.addEventListener('DOMContentLoaded',function(){
         <form id="orderForm" onSubmit={e => e.preventDefault()}>
           <input type="hidden" id="currentVer" defaultValue="0" />
           <div className="card">
-            <div className="card-header">Garment &amp; Style</div>
+            <div className="card-header">👗 Garment &amp; Style</div>
             <div className="card-body">
               <select id="gType" className="form-select mb-3" onChange={() => (window as any).uiLogic()}>
                 {['Suit/Tuxedo','Blazer','Shirt','Pant','Kurta','Indowestern','Sherwani','Nehru Jacket','Waistcoat','Patiala','Pyjama','Churidar','Aligarh'].map(g => {
@@ -317,7 +323,7 @@ document.addEventListener('DOMContentLoaded',function(){
           </div>
 
           <div id="mod_upper" className="card measurement-box">
-            <div className="card-header">Upper Measurements</div>
+            <div className="card-header">📐 Upper Measurements</div>
             <div className="card-body">
               <div className="row g-2">
                 {[['len','Length'],['chest','Chest'],['stom','Stomach'],['hip','Hip'],['shld','Shoulder'],['slv','Hand']].map(([k,l]) => (
@@ -338,7 +344,7 @@ document.addEventListener('DOMContentLoaded',function(){
           </div>
 
           <div id="mod_lower" className="card hidden measurement-box">
-            <div className="card-header">Lower Measurements</div>
+            <div className="card-header">📐 Lower Measurements</div>
             <div className="card-body">
               <div className="form-check form-switch mb-2"><input className="form-check-input" type="checkbox" id="halfElastic" /><label className="form-check-label text-warning">Half Elastic</label></div>
               <div className="row g-2">
@@ -350,7 +356,7 @@ document.addEventListener('DOMContentLoaded',function(){
           </div>
 
           <div className="card">
-            <div className="card-header">Body Profile (Required)</div>
+            <div className="card-header">🧍 Body Profile</div>
             <div className="card-body">
               {[['BACK','p_back',['Normal','Hunched','Erect'],['b1','b2','b3']],['STOMACH','p_stom',['Flat','Medium','Heavy'],['s1','s2','s3']],['SHOULDER','p_shld',['Regular','Sloping','Square'],['h1','h2','h3']],['NECK','p_neck',['Normal','Short','Long'],['n1','n2','n3']]].map(([label, name, opts, ids]: any) => (
                 <div key={name as string} className="mb-3">
