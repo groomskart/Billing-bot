@@ -1,8 +1,27 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [pinError, setPinError] = useState('');
+  const [showPin, setShowPin] = useState(false);
+  const OPERATOR_PIN = process.env.NEXT_PUBLIC_OPERATOR_PIN || '3265';
+
+  const handleUnlock = () => {
+    const input = (document.getElementById('pinInput') as HTMLInputElement)?.value || '';
+    if (input === OPERATOR_PIN) {
+      setUnlocked(true);
+      setPinError('');
+      (window as any).appUnlocked = true;
+      setTimeout(() => { const el = document.getElementById('billNo'); if (el) el.focus(); }, 100);
+    } else {
+      setPinError('Incorrect PIN — try again');
+      const el = document.getElementById('pinInput') as HTMLInputElement;
+      if (el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 450); el.select(); }
+    }
+  };
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       require('bootstrap/dist/js/bootstrap.bundle.min.js');
@@ -11,7 +30,6 @@ export default function HomePage() {
 
   const appScript = `
 (function(){
-const OPERATOR_PIN = "${process.env.NEXT_PUBLIC_OPERATOR_PIN || '3265'}";
 const SUPABASE_URL = "${process.env.NEXT_PUBLIC_SUPABASE_URL}";
 const SUPABASE_ANON_KEY = "${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}";
 const STORAGE_BUCKET = "${process.env.NEXT_PUBLIC_STORAGE_BUCKET || 'groomskart_fabrics'}";
@@ -39,27 +57,6 @@ function switchTab(tab) {
   if (tab === 'dashboard' && dashboardLoaded) { loadDashboard(); }
 }
 window.switchTab = switchTab;
-
-// ── PIN LOCK ───────────────────────────────────────────────
-function unlockApp() {
-  var inputEl = document.getElementById('pinInput');
-  var input = inputEl ? String(inputEl.value || '') : '';
-  var error = document.getElementById('pinError');
-  if (input === OPERATOR_PIN) {
-    window.appUnlocked = true;
-    var lock = document.getElementById('pinLock');
-    if (lock) lock.style.display = 'none';
-    if (error) { error.style.display = 'none'; error.innerText = ''; }
-    setTimeout(function(){ var el = document.getElementById('billNo'); if (el) el.focus(); }, 50);
-    return true;
-  } else {
-    if (error) { error.style.display = 'block'; error.innerText = 'Incorrect PIN — try again'; }
-    var shakeEl = document.getElementById('pinInput');
-    if (shakeEl) { shakeEl.classList.remove('shake'); void shakeEl.offsetWidth; shakeEl.classList.add('shake'); setTimeout(function(){ shakeEl.classList.remove('shake'); }, 450); shakeEl.select(); }
-    return false;
-  }
-}
-window.unlockApp = unlockApp;
 
 // ── AUTOSAVE ──────────────────────────────────────────────
 var isDirty = false;
@@ -357,16 +354,6 @@ window.closeDetailModal = closeDetailModal;
 
 // ── INIT ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',function(){
-  // PIN lock
-  var pinBtn=document.getElementById('pinUnlockBtn');
-  if(pinBtn)pinBtn.addEventListener('click',function(){var ok=unlockApp();if(!ok){var inp=document.getElementById('pinInput');if(inp)inp.focus();}});
-  var pinInput=document.getElementById('pinInput');
-  if(pinInput){pinInput.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();var ok=unlockApp();if(!ok)pinInput.select();}});setTimeout(function(){if(!window.appUnlocked&&pinInput)pinInput.focus();},50);}
-
-  // Show/hide password toggle
-  var showBtn=document.getElementById('pinShowBtn');
-  if(showBtn)showBtn.addEventListener('click',function(){var inp=document.getElementById('pinInput');if(inp)inp.type=inp.type==='password'?'text':'password';});
-
   // Order form
   document.querySelectorAll('input, select, textarea').forEach(function(el){el.addEventListener('input',function(){isDirty=true;var btn=document.getElementById('btnSave');if(btn&&btn.innerText==='SAVE ORDER')btn.innerText='SAVE ORDER *';scheduleAutosave();});});
   var today=new Date().toISOString().split('T')[0];var delEl=document.getElementById('delDate');if(delEl)delEl.setAttribute('min',today);
@@ -387,26 +374,28 @@ document.addEventListener('DOMContentLoaded',function(){
   return (
     <>
       {/* PIN LOCK */}
-      <div id="pinLock" style={{
-        position: 'fixed', inset: 0, background: '#0a0a0a',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        zIndex: 9999
-      }}>
-        <div style={{ background: '#141416', border: '1px solid #222', padding: '36px 32px 28px', borderRadius: '14px', width: '300px', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.9)' }}>
-          <div className="pin-logo">GROOMSKART<span className="pin-pro-badge">PRO</span></div>
-          <p className="pin-subtitle">Operator Access</p>
-          <hr className="pin-divider" />
-          <div className="pin-input-wrap">
-            <input id="pinInput" type="password" placeholder="Enter PIN" className="form-control" style={{ fontSize: '1.2rem', textAlign: 'center', letterSpacing: '6px', background: '#1e1e1e', border: '1px solid #333', color: '#fff' }}
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); (window as any).unlockApp(); } }} />
-            <button id="pinShowBtn" className="pin-show-btn" type="button"
-              onClick={() => { const el = document.getElementById('pinInput') as HTMLInputElement; if (el) el.type = el.type === 'password' ? 'text' : 'password'; }}>👁</button>
+      {!unlocked && (
+        <div style={{
+          position: 'fixed', inset: 0, background: '#0a0a0a',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{ background: '#141416', border: '1px solid #222', padding: '36px 32px 28px', borderRadius: '14px', width: '300px', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.9)' }}>
+            <div className="pin-logo">GROOMSKART<span className="pin-pro-badge">PRO</span></div>
+            <p className="pin-subtitle">Operator Access</p>
+            <hr className="pin-divider" />
+            <div className="pin-input-wrap">
+              <input id="pinInput" type={showPin ? 'text' : 'password'} placeholder="Enter PIN" className="form-control"
+                style={{ fontSize: '1.2rem', textAlign: 'center', letterSpacing: '6px', background: '#1e1e1e', border: '1px solid #333', color: '#fff' }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleUnlock(); } }}
+                autoFocus />
+              <button className="pin-show-btn" type="button" onClick={() => setShowPin(p => !p)}>👁</button>
+            </div>
+            <button className="btn btn-gold w-100 py-2" style={{ fontSize: '1rem', letterSpacing: '1px' }} onClick={handleUnlock}>UNLOCK</button>
+            {pinError && <p style={{ color: '#ff4d4d', marginTop: '12px', fontSize: '0.9rem' }}>{pinError}</p>}
           </div>
-          <button id="pinUnlockBtn" className="btn btn-gold w-100 py-2" style={{ fontSize: '1rem', letterSpacing: '1px' }}
-            onClick={() => (window as any).unlockApp()}>UNLOCK</button>
-          <p id="pinError" style={{ color: '#ff4d4d', marginTop: '12px', display: 'none', fontSize: '0.9rem' }}>Incorrect PIN — try again</p>
         </div>
-      </div>
+      )}
 
       {/* BOTTOM NAV */}
       <nav className="bottom-nav">
