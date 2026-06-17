@@ -1,0 +1,130 @@
+/* Import Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* ===== GROOMSKART GLOBAL STYLES ===== */
+body {
+  background-color: #000000;
+  color: #ffffff;
+  padding-bottom: 120px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card { background-color: #1a1a1a; border: 1px solid #444; margin-bottom: 15px; }
+.card-header { color: #c5a059 !important; font-weight: 900; background-color: #222; border-bottom: 1px solid #555; font-size: 1.1em; }
+label, .form-label { color: #e0e0e0 !important; font-weight: 500; font-size: 0.95em; }
+.text-warning { color: #c5a059 !important; }
+.text-info { color: #0dcaf0 !important; }
+.text-muted { color: #aaa !important; }
+.form-control, .form-select { background-color: #333333 !important; border: 1px solid #777 !important; color: #ffffff !important; font-weight: 600; }
+.form-control::placeholder { color: #bbbbbb !important; opacity: 1; }
+.form-control:focus { border-color: #c5a059 !important; box-shadow: none; background-color: #444 !important; }
+#billNo, #delDate, #cPhone, #cName, #cWearer { background-color: #ffffff !important; color: #000000 !important; font-weight: 800; border: 2px solid #ccc; }
+.ghost { font-size: 0.8em; color: #FFD700 !important; display: block; margin-top: 2px; font-weight: bold; min-height: 15px; }
+.bp-header { color: #ffffff !important; font-size: 0.95em; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; display: block; letter-spacing: 1px; border-bottom: 1px solid #444; padding-bottom: 2px; }
+.bright-label { color: #ffffff !important; font-weight: bold; }
+.modal { z-index: 20000 !important; }
+.modal-backdrop { z-index: 19000 !important; }
+.modal-content { background-color: #ffffff !important; color: #000000 !important; border: 4px solid #c5a059; }
+.modal-header .btn-close { filter: none !important; opacity: 1; }
+.modal-body { font-size: 1.1em; font-weight: bold; }
+.btn-gold { background-color: #c5a059; color: #000; font-weight: 800; border: none; }
+.btn-outline-gold { border-color: #c5a059; color: #c5a059; }
+.btn-outline-gold:hover, .btn-check:checked + .btn-outline-gold { background-color: #c5a059; color: #000; }
+.hidden { display: none !important; }
+#jobCardArea, #thermalPrintArea { display: none !important; }
+
+/* Dashboard tab */
+.dashboard-tab {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #111;
+  color: #f5c542;
+  padding: 12px 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #2a2a2a;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  z-index: 999;
+}
+.dashboard-tab:hover { background: #1a1a1a; color: #ffd666; }
+
+/* Dashboard styles */
+:root {
+  --gk-bg-main: #0f0f10;
+  --gk-bg-card: #1b1c1e;
+  --gk-bg-item: #202124;
+  --gk-gold-main: #f5c542;
+  --gk-gold-strong: #f0b800;
+  --gk-red-main: #ff4d4d;
+  --gk-green-main: #4ade80;
+  --gk-text-main: #eaeaea;
+  --gk-text-muted: #9aa0a6;
+  --gk-border-main: #34363a;
+}
+
+.pending-count { color: var(--gk-gold-main) !important; font-size: 3rem; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+.pending-label { color: var(--gk-text-muted); font-size: 0.95rem; margin-bottom: 8px; }
+.order-id { color: var(--gk-gold-main) !important; font-weight: 800; font-size: 1.05rem; }
+.garment-type { color: var(--gk-text-main) !important; font-weight: 600; }
+.customer-name { color: var(--gk-text-muted) !important; }
+.badge-delayed { background: var(--gk-red-main); color: #000; font-weight: 700; border-radius: 6px; padding: 4px 8px; }
+.filter-box { cursor: pointer; user-select: none; }
+.filter-box.filter-active { box-shadow: 0 6px 18px rgba(245,197,66,0.06); border: 1px solid rgba(245,197,66,0.15); transform: translateY(-2px); }
+.list { max-height: 340px; overflow-y: auto; padding-right: 6px; }
+.list .item { background: var(--gk-bg-item); border-radius: 6px; margin-bottom: 10px; padding: 14px; }
+.item.urgent-gold { border-left: 4px solid var(--gk-gold-main); box-shadow: 0 6px 18px rgba(245,197,66,0.06); }
+.item.due-today { border-left: 4px solid var(--gk-gold-strong); box-shadow: 0 10px 28px rgba(240,184,0,0.08); }
+.pager { display: flex; gap: 8px; align-items: center; justify-content: flex-end; margin-top: 8px; }
+.pager button { min-width: 80px; }
+.section-count { font-weight: 800; font-size: 1.2rem; color: var(--gk-gold-main); }
+.small-muted { color: var(--gk-text-muted); font-size: 0.9rem; }
+.pending-breakdown { width: 100%; border-collapse: collapse; background: transparent !important; margin-top: 6px; }
+.pending-breakdown tr td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--gk-text-muted); font-size: 0.95rem; }
+.pending-breakdown tr td:last-child { color: var(--gk-text-main); font-weight: 600; width: 48px; text-align: right; }
+
+/* PIN lock */
+#pinLock { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+.gk-pin-card { background: #1f2124 !important; border: 1px solid #3a3a3a !important; opacity: 1 !important; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+.gk-pin-card h4 { color: var(--gk-gold-main) !important; font-weight: 700; }
+
+@media print {
+  body, html { margin: 0 !important; padding: 0 !important; background-color: white !important; color: black !important; }
+  #mainAppContainer, .modal, .modal-backdrop { display: none !important; }
+  body.mode-standard #jobCardArea { display: flex !important; width: 100%; height: 100vh; }
+  body.mode-thermal #thermalPrintArea { display: block !important; }
+  * { color: #000 !important; background: transparent !important; }
+  .dashboard-tab, #pinLock, .pager, .no-print { display: none !important; visibility: hidden !important; }
+  .ticket-half { flex: 1; padding: 4mm; display: flex; flex-direction: column; border: none; }
+  .ticket-left { border-right: 2px dashed #000; }
+  .mini-header { border-bottom: 2px solid #000; padding-bottom: 2px; margin-bottom: 2px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .mini-title { font-size: 18pt; font-weight: 900; margin: 0; text-transform: uppercase; }
+  .mini-meta { font-size: 11pt; line-height: 1.2; font-weight: bold; }
+  .mini-swatch { width: 50px; height: 50px; border: 1px solid #000; object-fit: cover; }
+  .prom-box { border: 2px solid #000; text-align: center; font-weight: 900; font-size: 14pt; padding: 4px; margin-bottom: 8px; text-transform: uppercase; }
+  .urgent-box { color: red !important; font-weight: 900; font-size: 14pt; text-transform: uppercase; margin-bottom: 5px; display: block; text-align: left; }
+  .bp-grid-container { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 8px; }
+  .bp-box { border: 1px solid #000; width: 48%; display: flex; }
+  .bp-lbl { border-right: 1px solid #000; font-size: 9pt; width: 40%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+  .bp-val { font-size: 10pt; width: 60%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+  .mini-table { width: 100%; border-collapse: collapse; font-size: 11pt; border: 1px solid #000; margin-bottom: 5px; }
+  .mini-table th { border: 1px solid #000; padding: 2px 5px; text-align: left; width: 40%; font-weight: bold; text-transform: uppercase; }
+  .mini-table td { border: 1px solid #000; padding: 1px 5px; font-weight: 900; font-size: 12pt; text-align: center; height: 24px; }
+  .mini-footer { border-top: 2px solid #000; padding-top: 5px; font-size: 10pt; }
+  .footer-row { margin-bottom: 3px; border-bottom: 1px dotted #999; padding-bottom: 2px; }
+  .d-date-box { border: 2px solid #000; font-weight: 900; padding: 4px 8px; display: inline-block; font-size: 12pt; }
+  .th-container { width: 100%; font-family: sans-serif; }
+  .th-header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 5px; margin-bottom: 5px; }
+  .th-title { font-size: 16pt; font-weight: 900; display: block; text-transform: uppercase; }
+  .th-meta { font-size: 10pt; font-weight: bold; }
+  .th-table { width: 100%; border-collapse: collapse; font-size: 11pt; margin-bottom: 5px; }
+  .th-table th, .th-table td { border: 1px solid #000; padding: 4px; }
+  .th-table th { text-align: left; width: 40%; font-weight: bold; }
+  .th-table td { text-align: right; font-weight: 900; }
+  .th-sep { border-top: 2px dashed #000; border-bottom: 2px dashed #000; font-weight: 900; text-align: center; padding: 4px; margin: 8px 0; text-transform: uppercase; }
+  .th-block-inv { border: 3px solid #000; padding: 5px; text-align: center; font-weight: 900; font-size: 12pt; margin: 5px 0; text-transform: uppercase; }
+}
