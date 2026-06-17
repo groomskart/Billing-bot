@@ -5,9 +5,56 @@
 body {
   background-color: #000000;
   color: #ffffff;
-  padding-bottom: 120px;
+  padding-bottom: 80px;
   font-family: 'Segoe UI', sans-serif;
 }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #111113;
+  border-top: 1px solid #2a2a2a;
+  display: flex;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #555;
+  transition: color 0.15s;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.bottom-nav-tab::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: #c5a059;
+  border-radius: 0 0 3px 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.bottom-nav-tab.active { color: #f5c542; }
+.bottom-nav-tab.active::after { opacity: 1; }
+.bottom-nav-tab:hover { color: #aaa; }
+.bottom-nav-icon { font-size: 1.3rem; line-height: 1; }
+.bottom-nav-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
 
 .card { background-color: #1a1a1a; border: 1px solid #444; margin-bottom: 15px; }
 .card-header { color: #c5a059 !important; font-weight: 900; background-color: #222; border-bottom: 1px solid #555; font-size: 1.1em; }
@@ -33,25 +80,6 @@ label, .form-label { color: #e0e0e0 !important; font-weight: 500; font-size: 0.9
 .hidden { display: none !important; }
 #jobCardArea, #thermalPrintArea { display: none !important; }
 
-/* Dashboard tab */
-.dashboard-tab {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #111;
-  color: #f5c542;
-  padding: 12px 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  border-radius: 8px 0 0 8px;
-  border: 1px solid #2a2a2a;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  z-index: 999;
-}
-.dashboard-tab:hover { background: #1a1a1a; color: #ffd666; }
 
 /* Dashboard styles */
 :root {
