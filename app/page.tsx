@@ -397,10 +397,13 @@ document.addEventListener('DOMContentLoaded',function(){
           <p className="pin-subtitle">Operator Access</p>
           <hr className="pin-divider" />
           <div className="pin-input-wrap">
-            <input id="pinInput" type="password" placeholder="Enter PIN" className="form-control" style={{ fontSize: '1.2rem', textAlign: 'center', letterSpacing: '6px', background: '#1e1e1e', border: '1px solid #333', color: '#fff' }} />
-            <button id="pinShowBtn" className="pin-show-btn" type="button">👁</button>
+            <input id="pinInput" type="password" placeholder="Enter PIN" className="form-control" style={{ fontSize: '1.2rem', textAlign: 'center', letterSpacing: '6px', background: '#1e1e1e', border: '1px solid #333', color: '#fff' }}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); (window as any).unlockApp(); } }} />
+            <button id="pinShowBtn" className="pin-show-btn" type="button"
+              onClick={() => { const el = document.getElementById('pinInput') as HTMLInputElement; if (el) el.type = el.type === 'password' ? 'text' : 'password'; }}>👁</button>
           </div>
-          <button id="pinUnlockBtn" className="btn btn-gold w-100 py-2" style={{ fontSize: '1rem', letterSpacing: '1px' }}>UNLOCK</button>
+          <button id="pinUnlockBtn" className="btn btn-gold w-100 py-2" style={{ fontSize: '1rem', letterSpacing: '1px' }}
+            onClick={() => (window as any).unlockApp()}>UNLOCK</button>
           <p id="pinError" style={{ color: '#ff4d4d', marginTop: '12px', display: 'none', fontSize: '0.9rem' }}>Incorrect PIN — try again</p>
         </div>
       </div>
